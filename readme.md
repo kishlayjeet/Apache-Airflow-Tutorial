@@ -33,6 +33,8 @@ To initialize the Airflow database, run the following command:
  airflow initdb
 ```
 
+This will create the necessary database tables for storing information about your workflows, tasks, and their execution history.
+
 ## Basic Concepts
 
 Airflow is built around a few key concepts:

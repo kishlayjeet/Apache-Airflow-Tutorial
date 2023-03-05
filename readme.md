@@ -37,23 +37,23 @@ To initialize the Airflow database, run the following command:
 
 Airflow is built around a few key concepts:
 
-### DAGs
+### ~ DAGs
 
 A Directed Acyclic Graph (DAG) is a collection of tasks that are organized in a specific order. Each task represents a unit of work that needs to be performed. Tasks can be Python functions or external scripts that are executed by Airflow.
 
-### Operators
+### ~ Operators
 
 An Operator is a type of task that performs a specific function. Airflow provides a wide range of Operators for common tasks such as file manipulation, SQL operations, email sending, and more. You can also create your own custom Operators.
 
-### Sensors
+### ~ Sensors
 
 A Sensor is a type of Operator that waits for a specific condition to be met before continuing. For example, you might use a Sensor to wait for a file to appear in a specific location before processing it.
 
-### Hooks
+### ~ Hooks
 
 A Hook is a way to connect to external systems from Airflow. Hooks provide a consistent API for interacting with different types of systems such as databases, cloud platforms, and more.
 
-### Executors
+### ~ Executors
 
 An Executor is responsible for executing tasks. Airflow provides several Executors out of the box, including LocalExecutor, SequentialExecutor, and CeleryExecutor.
 

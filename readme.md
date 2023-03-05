@@ -142,6 +142,47 @@ The S3FileTransformOperator allows you to perform transformations on a file in S
 
 ```
 
+### EmailOperator
+
+The EmailOperator sends an email.
+
+```python
+ from airflow.operators.email import EmailOperator
+
+ task_1 = EmailOperator(task_id='task_1', to='[email protected]', subject='My Subject', html_content='<p>My HTML content</p>')
+```
+
+### SSHOperator
+
+The SSHOperator executes a command on a remote server over SSH.
+
+```python
+ from airflow.providers.ssh.operators.ssh import SSHOperator
+
+ task_1 = SSHOperator(task_id='task_1', ssh_conn_id='my_ssh_conn', command='echo "Hello World"')
+```
+
+### KubernetesPodOperator
+
+The KubernetesPodOperator runs a pod on a Kubernetes cluster.
+
+```python
+ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+
+ task_1 = KubernetesPodOperator(task_id='task_1', namespace='my_namespace', image='my_image',
+                                 cmds=['python', 'my_script.py'], arguments=['arg1', 'arg2'])
+```
+
+### HttpOperator
+
+The HttpOperator performs an HTTP request.
+
+```python
+ from airflow.providers.http.operators.http import SimpleHttpOperator
+
+ task_1 = SimpleHttpOperator(task_id='task_1', endpoint='/my/endpoint', method='GET', http_conn_id='my_http_conn')
+```
+
 ## Sensors
 
 Sensors are a special type of operator that wait for a specific condition to be met before continuing with the execution of the workflow. Here are a few examples:
@@ -176,6 +217,26 @@ The TimeDeltaSensor waits for a specific amount of time to pass before continuin
  task_1 = TimeDeltaSensor(task_id='task_1', delta=datetime.timedelta(hours=2))
 ```
 
+### ExternalTaskSensor
+
+The ExternalTaskSensor waits for another task to complete before continuing.
+
+```python
+ from airflow.sensors.external_task import ExternalTaskSensor
+
+ task_1 = ExternalTaskSensor(task_id='task_1', external_dag_id='my_dag', external_task_id='task_2')
+```
+
+### S3KeySensor
+
+The S3KeySensor waits for a key to appear in an S3 bucket.
+
+```python
+ from airflow.providers.amazon.aws.sensors.s3_key import S3KeySensor
+
+ task_1 = S3KeySensor(task_id='task_1', bucket_name='my_bucket', bucket_key='path/to/my/key', wildcard_match=True)
+```
+
 ## Hooks
 
 Airflow provides Hooks for various types of systems. Here are a few examples:
@@ -188,6 +249,16 @@ The PostgresHook allows you to connect to a PostgreSQL database.
  from airflow.hooks.postgres_hook import PostgresHook
 
  hook = PostgresHook(postgres_conn_id='my_postgres_connection')
+```
+
+### MySqlHook
+
+The MySqlHook is used to connect to a MySQL database.
+
+```python
+ from airflow.providers.mysql.hooks.mysql import MySqlHook
+
+ hook = MySqlHook(mysql_conn_id='my_mysql_conn')
 ```
 
 ### S3Hook
@@ -208,6 +279,16 @@ The HttpHook allows you to interact with HTTP endpoints.
  from airflow.hooks.http_hook import HttpHook
 
  hook = HttpHook(http_conn_id='my_http_connection')
+```
+
+### SlackHook
+
+The SlackHook is used to send messages to a Slack channel.
+
+```python
+ from airflow.providers.slack.hooks.slack_webhook import  SlackWebhookHook
+
+ hook = SlackWebhookHook(http_conn_id='my_slack_conn')
 ```
 
 ## Executors
@@ -243,6 +324,8 @@ The CeleryExecutor runs tasks using Celery.
 
  executor = CeleryExecutor()
 ```
+
+You can also create your own custom Executors if needed. To specify an `executor`, set the executor parameter in the Airflow configuration file (`airflow.cfg`). For example, to use the CeleryExecutor, set `executor = CeleryExecutor` in the configuration file.
 
 ## Conclusion
 

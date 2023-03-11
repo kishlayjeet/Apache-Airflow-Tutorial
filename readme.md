@@ -20,7 +20,7 @@ Apache Airflow is an open-source tool for orchestrating complex workflows and da
 You can install Airflow using pip:
 
 ```bash
- pip install apache-airflow
+pip install apache-airflow
 ```
 
 ## Configuration
@@ -30,7 +30,7 @@ After installation, you need to configure Airflow. The default configuration fil
 To initialize the Airflow database, run the following command:
 
 ```bash
- airflow initdb
+airflow initdb
 ```
 
 This will create the necessary database tables for storing information about your workflows, tasks, and their execution history.
@@ -64,19 +64,19 @@ An Executor is responsible for executing tasks. Airflow provides several Executo
 To create a DAG, you need to define a Python script that contains the DAG definition. Here's an example:
 
 ```python
- from airflow import DAG
- from airflow.operators.bash import BashOperator
- from datetime import datetime
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from datetime import datetime
 
- default_args = {
-     'owner': 'airflow',
-     'depends_on_past': False,
-     'start_date': datetime(2023, 3, 1),
-     'retries': 1
- }
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2023, 3, 1),
+    'retries': 1
+}
 
- with DAG('my_dag', default_args=default_args,  schedule_interval='@daily') as dag:
-     task_1 = BashOperator(task_id='task_1', bash_command='echo  "Hello World"')
+with DAG('my_dag', default_args=default_args,  schedule_interval='@daily') as dag:
+    task_1 = BashOperator(task_id='task_1', bash_command='echo  "Hello World"')
 ```
 
 In this example, we define a DAG called my_dag that runs a Bash command (echo "Hello World") every day. We also specify some default arguments such as the owner of the DAG, the start date, and the number of retries. Finally, we create a BashOperator called `task_1` that executes the Bash command.
@@ -90,9 +90,9 @@ Airflow provides many Operators for common tasks. Here are a few examples:
 The BashOperator executes a Bash command.
 
 ```python
- from airflow.operators.bash import BashOperator
+from airflow.operators.bash import BashOperator
 
- task_1 = BashOperator(task_id='task_1', bash_command='echo  "Hello World"')
+task_1 = BashOperator(task_id='task_1', bash_command='echo  "Hello World"')
 ```
 
 ### PythonOperator
@@ -100,12 +100,12 @@ The BashOperator executes a Bash command.
 The PythonOperator executes a Python function.
 
 ```python
- from airflow.operators.python import PythonOperator
+from airflow.operators.python import PythonOperator
 
- def my_function():
-     print('Hello World')
+def my_function():
+    print('Hello World')
 
- task_1 = PythonOperator(task_id='task_1',  python_callable=my_function)
+task_1 = PythonOperator(task_id='task_1',  python_callable=my_function)
 ```
 
 ### SQLOperator
@@ -113,9 +113,9 @@ The PythonOperator executes a Python function.
 The SQLOperator executes a SQL query.
 
 ```python
- from airflow.operators.sql import SQLOperator
+from airflow.operators.sql import SQLOperator
 
- task_1 = SQLOperator(task_id='task_1', sql='SELECT * FROM  my_table', database='my_database')
+task_1 = SQLOperator(task_id='task_1', sql='SELECT * FROM  my_table', database='my_database')
 ```
 
 ### DockerOperator
@@ -123,10 +123,10 @@ The SQLOperator executes a SQL query.
 The DockerOperator executes a Docker container.
 
 ```python
- from airflow.operators.docker_operator import DockerOperator
+from airflow.operators.docker_operator import DockerOperator
 
- task_1 = DockerOperator(task_id='task_1', image='my_docker_image', command='python my_script.py',
-                         api_version='auto', auto_remove=True)
+task_1 = DockerOperator(task_id='task_1', image='my_docker_image', command='python my_script.py',
+                        api_version='auto', auto_remove=True)
 ```
 
 ### S3FileTransformOperator
@@ -134,12 +134,11 @@ The DockerOperator executes a Docker container.
 The S3FileTransformOperator allows you to perform transformations on a file in S3.
 
 ```python
- from airflow.providers.amazon.aws.operators.s3_file_transform import S3FileTransformOperator
+from airflow.providers.amazon.aws.operators.s3_file_transform import S3FileTransformOperator
 
- task_1 = S3FileTransformOperator(task_id='task_1', source_s3_key='input.json', dest_s3_key='output.json',
-                                  replace=False, transform_script='transform.py', source_aws_conn_id='aws_default',
-                                  dest_aws_conn_id='aws_default')
-
+task_1 = S3FileTransformOperator(task_id='task_1', source_s3_key='input.json', dest_s3_key='output.json',
+                                 replace=False, transform_script='transform.py', source_aws_conn_id='aws_default',
+                                 dest_aws_conn_id='aws_default')
 ```
 
 ### EmailOperator
@@ -147,9 +146,9 @@ The S3FileTransformOperator allows you to perform transformations on a file in S
 The EmailOperator sends an email.
 
 ```python
- from airflow.operators.email import EmailOperator
+from airflow.operators.email import EmailOperator
 
- task_1 = EmailOperator(task_id='task_1', to='[email protected]', subject='My Subject', html_content='<p>My HTML content</p>')
+task_1 = EmailOperator(task_id='task_1', to='[email protected]', subject='My Subject', html_content='<p>My HTML content</p>')
 ```
 
 ### SSHOperator
@@ -157,9 +156,9 @@ The EmailOperator sends an email.
 The SSHOperator executes a command on a remote server over SSH.
 
 ```python
- from airflow.providers.ssh.operators.ssh import SSHOperator
+from airflow.providers.ssh.operators.ssh import SSHOperator
 
- task_1 = SSHOperator(task_id='task_1', ssh_conn_id='my_ssh_conn', command='echo "Hello World"')
+task_1 = SSHOperator(task_id='task_1', ssh_conn_id='my_ssh_conn', command='echo "Hello World"')
 ```
 
 ### KubernetesPodOperator
@@ -167,10 +166,10 @@ The SSHOperator executes a command on a remote server over SSH.
 The KubernetesPodOperator runs a pod on a Kubernetes cluster.
 
 ```python
- from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 
- task_1 = KubernetesPodOperator(task_id='task_1', namespace='my_namespace', image='my_image',
-                                 cmds=['python', 'my_script.py'], arguments=['arg1', 'arg2'])
+task_1 = KubernetesPodOperator(task_id='task_1', namespace='my_namespace', image='my_image',
+                                cmds=['python', 'my_script.py'], arguments=['arg1', 'arg2'])
 ```
 
 ### HttpOperator
@@ -178,9 +177,9 @@ The KubernetesPodOperator runs a pod on a Kubernetes cluster.
 The HttpOperator performs an HTTP request.
 
 ```python
- from airflow.providers.http.operators.http import SimpleHttpOperator
+from airflow.providers.http.operators.http import SimpleHttpOperator
 
- task_1 = SimpleHttpOperator(task_id='task_1', endpoint='/my/endpoint', method='GET', http_conn_id='my_http_conn')
+task_1 = SimpleHttpOperator(task_id='task_1', endpoint='/my/endpoint', method='GET', http_conn_id='my_http_conn')
 ```
 
 ## Sensors
@@ -192,9 +191,9 @@ Sensors are a special type of operator that wait for a specific condition to be 
 The FileSensor waits for a file to appear in a specific location.
 
 ```python
- from airflow.sensors.filesystem import FileSensor
+from airflow.sensors.filesystem import FileSensor
 
- task_1 = FileSensor(task_id='task_1',  fs_conn_id='my_filesystem', filepath='/path/to/my/file')
+task_1 = FileSensor(task_id='task_1',  fs_conn_id='my_filesystem', filepath='/path/to/my/file')
 ```
 
 ### HttpSensor
@@ -202,9 +201,9 @@ The FileSensor waits for a file to appear in a specific location.
 The HttpSensor waits for an HTTP endpoint to return a specific response.
 
 ```python
- from airflow.sensors.http import HttpSensor
+from airflow.sensors.http import HttpSensor
 
- task_1 = HttpSensor(task_id='task_1',  http_conn_id='my_http_connection', endpoint='/my/endpoint')
+task_1 = HttpSensor(task_id='task_1',  http_conn_id='my_http_connection', endpoint='/my/endpoint')
 ```
 
 ### TimeDeltaSensor
@@ -212,9 +211,9 @@ The HttpSensor waits for an HTTP endpoint to return a specific response.
 The TimeDeltaSensor waits for a specific amount of time to pass before continuing.
 
 ```python
- from airflow.sensors.time_delta import TimeDeltaSensor
+from airflow.sensors.time_delta import TimeDeltaSensor
 
- task_1 = TimeDeltaSensor(task_id='task_1', delta=datetime.timedelta(hours=2))
+task_1 = TimeDeltaSensor(task_id='task_1', delta=datetime.timedelta(hours=2))
 ```
 
 ### ExternalTaskSensor
@@ -222,9 +221,9 @@ The TimeDeltaSensor waits for a specific amount of time to pass before continuin
 The ExternalTaskSensor waits for another task to complete before continuing.
 
 ```python
- from airflow.sensors.external_task import ExternalTaskSensor
+from airflow.sensors.external_task import ExternalTaskSensor
 
- task_1 = ExternalTaskSensor(task_id='task_1', external_dag_id='my_dag', external_task_id='task_2')
+task_1 = ExternalTaskSensor(task_id='task_1', external_dag_id='my_dag', external_task_id='task_2')
 ```
 
 ### S3KeySensor
@@ -232,9 +231,9 @@ The ExternalTaskSensor waits for another task to complete before continuing.
 The S3KeySensor waits for a key to appear in an S3 bucket.
 
 ```python
- from airflow.providers.amazon.aws.sensors.s3_key import S3KeySensor
+from airflow.providers.amazon.aws.sensors.s3_key import S3KeySensor
 
- task_1 = S3KeySensor(task_id='task_1', bucket_name='my_bucket', bucket_key='path/to/my/key', wildcard_match=True)
+task_1 = S3KeySensor(task_id='task_1', bucket_name='my_bucket', bucket_key='path/to/my/key', wildcard_match=True)
 ```
 
 ## Hooks
@@ -246,9 +245,9 @@ Airflow provides Hooks for various types of systems. Here are a few examples:
 The PostgresHook allows you to connect to a PostgreSQL database.
 
 ```python
- from airflow.hooks.postgres_hook import PostgresHook
+from airflow.hooks.postgres_hook import PostgresHook
 
- hook = PostgresHook(postgres_conn_id='my_postgres_connection')
+hook = PostgresHook(postgres_conn_id='my_postgres_connection')
 ```
 
 ### MySqlHook
@@ -256,9 +255,9 @@ The PostgresHook allows you to connect to a PostgreSQL database.
 The MySqlHook is used to connect to a MySQL database.
 
 ```python
- from airflow.providers.mysql.hooks.mysql import MySqlHook
+from airflow.providers.mysql.hooks.mysql import MySqlHook
 
- hook = MySqlHook(mysql_conn_id='my_mysql_conn')
+hook = MySqlHook(mysql_conn_id='my_mysql_conn')
 ```
 
 ### S3Hook
@@ -266,9 +265,9 @@ The MySqlHook is used to connect to a MySQL database.
 The S3Hook allows you to interact with Amazon S3.
 
 ```python
- from airflow.hooks.S3_hook import S3Hook
+from airflow.hooks.S3_hook import S3Hook
 
- hook = S3Hook(aws_conn_id='my_aws_connection')
+hook = S3Hook(aws_conn_id='my_aws_connection')
 ```
 
 ### HttpHook
@@ -276,9 +275,9 @@ The S3Hook allows you to interact with Amazon S3.
 The HttpHook allows you to interact with HTTP endpoints.
 
 ```python
- from airflow.hooks.http_hook import HttpHook
+from airflow.hooks.http_hook import HttpHook
 
- hook = HttpHook(http_conn_id='my_http_connection')
+hook = HttpHook(http_conn_id='my_http_connection')
 ```
 
 ### SlackHook
@@ -286,9 +285,9 @@ The HttpHook allows you to interact with HTTP endpoints.
 The SlackHook is used to send messages to a Slack channel.
 
 ```python
- from airflow.providers.slack.hooks.slack_webhook import  SlackWebhookHook
+from airflow.providers.slack.hooks.slack_webhook import  SlackWebhookHook
 
- hook = SlackWebhookHook(http_conn_id='my_slack_conn')
+hook = SlackWebhookHook(http_conn_id='my_slack_conn')
 ```
 
 ## Executors
@@ -300,9 +299,9 @@ Airflow provides several Executors out of the box. Here are a few examples:
 The LocalExecutor runs tasks locally in separate processes.
 
 ```python
- from airflow.executors.local_executor import LocalExecutor
+from airflow.executors.local_executor import LocalExecutor
 
- executor = LocalExecutor()
+executor = LocalExecutor()
 ```
 
 ### SequentialExecutor
@@ -310,9 +309,9 @@ The LocalExecutor runs tasks locally in separate processes.
 The SequentialExecutor runs tasks sequentially in a single process.
 
 ```python
- from airflow.executors.sequential_executor import  SequentialExecutor
+from airflow.executors.sequential_executor import  SequentialExecutor
 
- executor = SequentialExecutor()
+executor = SequentialExecutor()
 ```
 
 ### CeleryExecutor
@@ -320,9 +319,9 @@ The SequentialExecutor runs tasks sequentially in a single process.
 The CeleryExecutor runs tasks using Celery.
 
 ```python
- from airflow.executors.celery_executor import CeleryExecutor
+from airflow.executors.celery_executor import CeleryExecutor
 
- executor = CeleryExecutor()
+executor = CeleryExecutor()
 ```
 
 You can also create your own custom Executors if needed. To specify an `executor`, set the executor parameter in the Airflow configuration file (`airflow.cfg`). For example, to use the CeleryExecutor, set `executor = CeleryExecutor` in the configuration file.
